@@ -12,5 +12,9 @@
   "dependencies": {
     "antlr4": "^4.11.0"
   },
-  "type": "module"
+  "type": "commonjs",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/A00820449/compiler-design-final-project-antlr4.git"
+  }
 }
