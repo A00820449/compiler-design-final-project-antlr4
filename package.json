@@ -1,0 +1,16 @@
+{
+  "name": "compiler-design-final-project-antlr4",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build-grammar": "antlr4 -Dlanguage=JavaScript grammar/Grammar.g4 -lib grammar -o lib -visitor"
+  },
+  "author": "a00820449",
+  "license": "MIT",
+  "dependencies": {
+    "antlr4": "^4.11.0"
+  },
+  "type": "module"
+}
