@@ -133,3 +133,5 @@ lib/
 
 grammar/input.txt
 grammar/.antlr
+
+.idea/
