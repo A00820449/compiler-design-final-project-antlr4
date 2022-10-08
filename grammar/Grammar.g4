@@ -8,9 +8,9 @@ main: R_MAIN param_list SEMICOLON vars? block;
 
 block: LBRACE statement* RBRACE;
 
-vars: R_VAR var_declaration+;
+vars: R_VAR COLON var_declaration+;
 
-var_declaration: type int_in_brack? int_in_brack? COLON var_list SEMICOLON;
+var_declaration: type int_in_brack? int_in_brack? var_list SEMICOLON;
 int_in_brack: LBRACK C_INT RBRACK ;
 
 functions: function_decl+;
@@ -22,48 +22,51 @@ type: R_INT | R_FLOAT | R_BOOL ;
 
 var_list: ID (COMMA ID)*;
 
-statement: (assignment | conditional | fun_call | printing | reading | returning | while_loop) SEMICOLON;
+statement: assignment | conditional | fun_call_stmt | print_stmt | read_stmt | return_stmt | while_loop;
 
-printing: R_PRINT LPAREN C_STRING (COMMA expression)* RPAREN;
+print_stmt: R_PRINT LPAREN C_STRING (COMMA expression)* RPAREN SEMICOLON;
 
-assignment: var_access ASSIGN expression;
+fun_call_stmt: fun_call SEMICOLON;
 
-conditional: R_IF LPAREN expression RPAREN block conditional_else? ;
+assignment: var_access ASSIGN expression SEMICOLON;
+
+conditional: R_IF LPAREN expression RPAREN block conditional_else? SEMICOLON;
 conditional_else: R_ELSE block;
 
-reading: R_INPUT LPAREN var_access_list RPAREN;
+read_stmt: R_INPUT LPAREN var_access_list RPAREN SEMICOLON;
 var_access_list: var_access (COMMA var_access)*;
 
-returning: R_RETURN LPAREN expression RPAREN;
+return_stmt: R_RETURN LPAREN expression RPAREN SEMICOLON;
 
-while_loop: R_WHILE LPAREN expression RPAREN block;
+while_loop: R_WHILE LPAREN expression RPAREN block SEMICOLON;
 
-exp1: exp2 (plus_or_minus exp2)* ;
+expression: conjunction (AND conjunction)*;
 
-exp2: exp3 (mult_or_div exp3)*;
+conjunction: relation (OR relation)*;
 
-exp3: exp4 (POW exp4)*;
+relation: addition (comparison_op relation)*;
 
-exp4: exp5 (comparison_op exp5)?;
+addition: term (term_op term)*;
 
-exp5: exp6 (bool_op exp6)*;
+term: factor (factor_op factor)*;
 
-exp6: plus_or_minus? (LPAREN exp1 RPAREN | value);
+factor: exponent (POW exponent)*;
 
-expression: exp1;
+exponent: negation_op? (LPAREN expression RPAREN | atom);
 
 comparison_op: EQ | NOT_EQ | GT | GE | LT | LE ;
 bool_op: AND | OR;
-plus_or_minus: ADD | SUB;
-mult_or_div: MUL | DIV;
+term_op: ADD | SUB;
+factor_op: MUL | DIV;
 
-value: literal| var_access | fun_call;
+atom: literal | var_access | fun_call;
 literal: C_INT | C_FLOAT | C_TRUE | C_FALSE;
 fun_call: ID arg_list;
 arg_list: LPAREN expression_list? RPAREN;
 expression_list: expression (COMMA expression)*;
 var_access: ID brack_access? brack_access?;
 brack_access: LBRACK expression RBRACK;
+negation_op: NOT | SUB;
 
 /* TOKENS */
 R_INT : 'int' ;
