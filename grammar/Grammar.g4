@@ -22,7 +22,7 @@ type: R_INT | R_FLOAT | R_BOOL ;
 
 var_list: ID (COMMA ID)*;
 
-statement: assignment | conditional | fun_call_stmt | print_stmt | read_stmt | return_stmt | while_loop;
+statement: assignment | conditional | fun_call_stmt | print_stmt | input_stmt | read_stmt | return_stmt | while_loop;
 
 print_stmt: R_PRINT LPAREN C_STRING (COMMA expression)* RPAREN SEMICOLON;
 
@@ -33,8 +33,10 @@ assignment: var_access ASSIGN expression SEMICOLON;
 conditional: R_IF LPAREN expression RPAREN block conditional_else? SEMICOLON;
 conditional_else: R_ELSE block;
 
-read_stmt: R_INPUT LPAREN var_access_list RPAREN SEMICOLON;
+input_stmt: R_INPUT LPAREN var_access_list RPAREN SEMICOLON;
 var_access_list: var_access (COMMA var_access)*;
+
+read_stmt: R_READ LPAREN C_STRING RPAREN SEMICOLON;
 
 return_stmt: R_RETURN LPAREN expression RPAREN SEMICOLON;
 
