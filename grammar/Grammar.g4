@@ -46,7 +46,7 @@ expression: conjunction (AND conjunction)*;
 
 conjunction: relation (OR relation)*;
 
-relation: addition (comparison_op relation)*;
+relation: addition (comparison_op addition)*;
 
 addition: term (term_op term)*;
 
@@ -57,7 +57,6 @@ factor: exponent (POW exponent)*;
 exponent: negation_op? (LPAREN expression RPAREN | atom);
 
 comparison_op: EQ | NOT_EQ | GT | GE | LT | LE ;
-bool_op: AND | OR;
 term_op: ADD | SUB;
 factor_op: MUL | DIV;
 
