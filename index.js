@@ -1,7 +1,5 @@
 const GrammarVisitor = require("./lib/grammar/GrammarVisitor").default
+const GrammarListener = require("./lib/grammar/GrammarListener").default
 
-class myVisitor extends GrammarVisitor {
-    visitStart() {
-
-    }    
-}
+const visitor = new GrammarVisitor()
+visitor.visitStart()

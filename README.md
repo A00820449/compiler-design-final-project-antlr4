@@ -2,6 +2,6 @@
 
 Miguel Angel Tornero Carrillo A00820449  
 
-## Avance3: Semántica, Generación de Código de Expresiones y Estatutos Lineales
+## Avance4: Generación de Código de Estatutos Condicionales y Cíclicos
 
-Desafortunadamente no tuve tiempo para empezar la generacion de codigo, pero le planeo avanzar esta semana para ponerme al corriente  
+Esta semana tuve problemas tecnicos para con ANTLR y creo que tendre que re-escribir la gramatica o usar otra herramienta ya que no encuentro mucha documentacion de como usar esta herramienta.  
