@@ -5,14 +5,14 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build-grammar": "antlr4 -Dlanguage=JavaScript grammar/Grammar.g4 -lib grammar -o lib -visitor"
+    "build-grammar": "antlr4 -Dlanguage=JavaScript Grammar.g4 -o lib -visitor"
   },
   "author": "a00820449",
   "license": "MIT",
   "dependencies": {
     "antlr4": "^4.11.0"
   },
-  "type": "commonjs",
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "https://github.com/A00820449/compiler-design-final-project-antlr4.git"
