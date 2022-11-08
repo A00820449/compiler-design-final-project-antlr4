@@ -134,6 +134,7 @@ grammar/.antlr
 
 .idea/
 lib/
+.antlr/
 
 # Avances
 *.zip

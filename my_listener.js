@@ -1,8 +1,10 @@
 import GrammarListener from "./lib/GrammarListener.js"
+import Stack from "./my_stack.js"
+
 
 export default class MyListener extends GrammarListener {
-	vector = Array(0)
-	op_stack = Array(0)
+	vector = []
+	op_stack = new Stack()
 
     constructor() {
         super()
@@ -13,28 +15,28 @@ export default class MyListener extends GrammarListener {
 	}
 
 	exitStart(ctx) {
-		console.log(this.vector, this.op_stack)
+		console.log(this.vector)
 		console.log("Done")
 	}
 
 	exitTerm_op(ctx) {
-		this.op_stack.unshift(ctx.getText())
+		this.op_stack.push(ctx.getText())
 	}
 
 	exitTerm(ctx) {
-		if (this.op_stack[0] === "+" || this.op_stack[0] === "-") {
-			this.vector.push(this.op_stack.shift())
+		if (this.op_stack.peek() === "+" || this.op_stack.peek() === "-") {
+			this.vector.push(this.op_stack.pop())
 		}
 	}
 
 	exitFactor_op(ctx) {
-		this.op_stack.unshift(ctx.getText())
+		this.op_stack.push(ctx.getText())
 	}
 
 
 	exitFactor(ctx) {
-		if (this.op_stack[0] === "*" || this.op_stack[0] === "/") {
-			this.vector.push(this.op_stack.shift())
+		if (this.op_stack.peek() === "*" || this.op_stack.peek() === "/") {
+			this.vector.push(this.op_stack.pop())
 		}
 	}
 
@@ -45,11 +47,11 @@ export default class MyListener extends GrammarListener {
 	}
 
     enterParen_exp(ctx) {
-        this.op_stack.unshift("(")
+        this.op_stack.push("(")
     }
 
     exitParen_exp(ctx) {
-        this.op_stack.shift()
+        this.op_stack.pop()
     }
 
 }

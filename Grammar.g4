@@ -12,7 +12,9 @@ factor: atom | paren_exp;
 
 paren_exp: LPAREN expression RPAREN;
 
-atom: NUM_LITERAL;
+atom: num_literal | ID;
+
+num_literal: FLOAT_LITERAL | INT_LITERAL;
 
 // TOKENS
 ADD: '+';
@@ -21,5 +23,8 @@ MUL: '*';
 DIV: '/';
 LPAREN: '(';
 RPAREN: ')';
-NUM_LITERAL: [0-9]+('.'[0-9]+)?;
+FLOAT_LITERAL: [0-9]+'.'[0-9]+;
+INT_LITERAL: [0-9]+;
+ID: [a-zA-Z_][a-zA-Z0-9_]*;
+
 WS: [ \t\r\n]+ -> skip;

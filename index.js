@@ -3,7 +3,7 @@ import GrammarParser from "./lib/GrammarParser.js"
 import MyListener from "./my_listener.js"
 import {default as antlr} from "antlr4"
 
-const input = "(1 + 2) / (4 * 8)"
+const input = "3 - (1 + 2) / (4 * 8)"
 const chars = new antlr.InputStream(input)
 const lexer = new GrammarLexer(chars)
 const tokens = new antlr.CommonTokenStream(lexer)
@@ -15,4 +15,4 @@ parser.buildParseTrees = true
 parser.addParseListener(listener)
 
 console.log("Input:", input)
-const tree = parser.start()
+parser.start()
