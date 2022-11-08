@@ -133,6 +133,7 @@ grammar/input.txt
 grammar/.antlr
 
 .idea/
+lib/
 
 # Avances
 *.zip
