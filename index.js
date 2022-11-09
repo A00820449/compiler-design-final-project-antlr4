@@ -2,8 +2,10 @@ import GrammarLexer from "./lib/GrammarLexer.js"
 import GrammarParser from "./lib/GrammarParser.js"
 import MyListener from "./my_listener.js"
 import {default as antlr} from "antlr4"
+import {readFileSync} from "node:fs"
 
-const input = "3 - (1 + 2) / (4 * 8)"
+const input = readFileSync("input.txt").toString()
+
 const chars = new antlr.InputStream(input)
 const lexer = new GrammarLexer(chars)
 const tokens = new antlr.CommonTokenStream(lexer)

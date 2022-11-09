@@ -1,4 +1,4 @@
-module.exports = {
+export default {
     "int": {
         "+": {
             "int": "int",
@@ -22,27 +22,27 @@ module.exports = {
         },
         ">": {
             "int": "bool",
-            "bool": "bool"
+            "float": "bool"
         },
         ">=": {
             "int": "bool",
-            "bool": "bool"
+            "float": "bool"
         },
         "<": {
             "int": "bool",
-            "bool": "bool"
+            "float": "bool"
         },
         "<=": {
             "int": "bool",
-            "bool": "bool"
+            "float": "bool"
         },
         "==": {
             "int": "bool",
-            "bool": "bool"
+            "float": "bool"
         },
         "!=": {
             "int": "bool",
-            "bool": "bool"
+            "float": "bool"
         },
     },
     "float": {
@@ -68,27 +68,27 @@ module.exports = {
         },
         ">": {
             "int": "bool",
-            "bool": "bool"
+            "float": "bool"
         },
         ">=": {
             "int": "bool",
-            "bool": "bool"
+            "float": "bool"
         },
         "<": {
             "int": "bool",
-            "bool": "bool"
+            "float": "bool"
         },
         "<=": {
             "int": "bool",
-            "bool": "bool"
+            "float": "bool"
         },
         "==": {
             "int": "bool",
-            "bool": "bool"
+            "float": "bool"
         },
         "!=": {
             "int": "bool",
-            "bool": "bool"
+            "float": "bool"
         },
     },
     "bool": {
