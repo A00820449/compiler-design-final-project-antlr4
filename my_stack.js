@@ -1,18 +1,32 @@
+/**
+ * @template T
+ */
 export default class Stack {
+    /**
+     * @type {T[]}
+    */
     #arr
     constructor() {
-        this.#arr = new Array(0)
+        this.#arr = []
     }
 
     pop() {
         return this.#arr.pop()
     }
 
+    /**
+     * @param {T} x 
+     * @returns 
+     */
     push(x) {
         return this.#arr.push(x)
     }
 
     peek() {
         return this.#arr[this.#arr.length - 1]
+    }
+
+    isEmpty() {
+        return this.#arr.length <= 0
     }
 }

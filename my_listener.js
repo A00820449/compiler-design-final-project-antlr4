@@ -4,7 +4,13 @@ import sematic_cube from "./sematic_cube.js"
 
 export default class MyListener extends GrammarListener {
 	quad_vector = []
+	/**
+	 * @type {Stack<string>}
+	 */
 	operator_stack = new Stack()
+	/**
+	 * @type {Stack<{value: any, type: string}>}
+	 */
 	operand_stack = new Stack()
 
 	mem_counter = 0
@@ -13,6 +19,11 @@ export default class MyListener extends GrammarListener {
         super()
     }
 
+	/**
+	 * 
+	 * @param  {...string} operators 
+	 * @returns 
+	 */
 	quadrupleHandler(...operators) {
 		if (!operators.includes(this.operator_stack.peek())) { return; }
 
@@ -39,6 +50,11 @@ export default class MyListener extends GrammarListener {
 		console.log("Done")
 	}
 
+	exitExp_stmt(ctx) {
+		const operand = this.operand_stack.pop()
+
+		console.log("Result:", operand)
+	}
 	
 	exitExp_float_literal(ctx) {
 		this.operand_stack.push({value: ctx.getText(), type: "float"})
@@ -52,6 +68,9 @@ export default class MyListener extends GrammarListener {
 		this.operand_stack.push({value: ctx.getText().charAt(0), type: "bool"})
 	}
 
+	exitVar_access(ctx) {
+		this.operand_stack.push({value: ctx.getText(), type: "float"})
+	}
 
 	exitConjuction_op(ctx) {
 		this.operator_stack.push(ctx.getText())

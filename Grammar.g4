@@ -1,6 +1,16 @@
 grammar Grammar;
 
-start: expression EOF;
+start: program EOF;
+
+program: /*R_PROGRAM ID SEMICOLON*/ /*vars? functions?*/ main;
+
+main: R_MAIN LPAREN RPAREN block;
+
+block: LBRACE statement* RBRACE;
+
+statement: exp_stmt | SEMICOLON;
+
+exp_stmt: expression SEMICOLON;
 
 expression: conjunction expression_aux;
 expression_aux: (conjuction_op conjunction)*;
