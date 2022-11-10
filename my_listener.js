@@ -134,7 +134,7 @@ export default class MyListener extends GrammarListener {
  * @param {string} elem2 
  * @param {string} elem4 
  * @param {string} elem3 
- * @returns 
+ * @returns {(string|null)[]}
  */
  export function getQuadruple(elem1, elem2, elem3, elem4) {
     const output = [null, null, null, null]

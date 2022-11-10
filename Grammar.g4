@@ -36,7 +36,8 @@ factor: exponent exponent_aux;
 exponent_aux: (exponent_op exponent)*;
 exponent_op: POW;
 
-exponent: negation_op? (atom | paren_exp);
+exponent: negation;
+negation: negation_op? (atom | paren_exp);
 negation_op: NOT | SUB;
 
 paren_exp: LPAREN expression RPAREN;

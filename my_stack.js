@@ -22,6 +22,9 @@ export default class Stack {
         return this.#arr.push(x)
     }
 
+    /**
+     * @returns {T | undefined}
+     */
     peek() {
         return this.#arr[this.#arr.length - 1]
     }
