@@ -2,7 +2,13 @@ grammar Grammar;
 
 start: program EOF;
 
-program: /*R_PROGRAM ID SEMICOLON*/ /*vars? functions?*/ main;
+program: /*R_PROGRAM ID SEMICOLON*/ global_vars? /*functions?*/ main;
+
+global_vars: vars;
+vars: R_VAR COLON var_decl*;
+var_decl: var_decl_type var_decl_name (COMMA var_decl_name)* SEMICOLON;
+var_decl_type: R_INT | R_FLOAT | R_BOOL;
+var_decl_name: ID;
 
 main: R_MAIN LPAREN RPAREN block;
 

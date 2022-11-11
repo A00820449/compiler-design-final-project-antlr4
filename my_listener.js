@@ -2,6 +2,10 @@ import GrammarListener from "./lib/GrammarListener.js"
 import Stack from "./my_stack.js"
 import sematic_cube from "./sematic_cube.js"
 
+/**
+ * @typedef {{type: string, scope: string}} var_info
+ */
+
 export default class MyListener extends GrammarListener {
 	quad_vector = []
 	/**
@@ -14,6 +18,14 @@ export default class MyListener extends GrammarListener {
 	operand_stack = new Stack()
 
 	mem_counter = 0
+
+	current_var_decl_type = "";
+	current_var_decl_scope = "";
+
+	/**
+	 * @type {Object<string, var_info>}
+	 */
+	vars = {}
 
     constructor() {
         super()
@@ -69,7 +81,17 @@ export default class MyListener extends GrammarListener {
 	}
 
 	exitVar_access(ctx) {
-		this.operand_stack.push({value: ctx.getText(), type: "float"})
+		/**
+		 * @type {string}
+		 */
+		const name = ctx.getText()
+
+		const data = this.vars[name]
+		if (!data) {
+			throw new Error("Undeclared variable")
+		}
+		
+		this.operand_stack.push({value: name, type: data.type})
 	}
 
 	exitConjuction_op(ctx) {
@@ -127,6 +149,29 @@ export default class MyListener extends GrammarListener {
 	exitParen_exp(ctx) {
 		this.operator_stack.pop()
 	}
+
+	/*vars*/
+	exitVar_decl_type(ctx) {
+		this.current_var_decl_type = ctx.getText()
+	}
+
+	enterGlobal_vars(ctx) {
+		this.current_var_decl_scope = "global"
+	}
+
+	exitVar_decl_name(ctx) {
+		/**
+		 * @type {string}
+		 */
+		const id = ctx.getText()
+
+		if (this.vars[id]) {
+			throw new Error("Variable declared twice")
+		}
+		this.vars[id] = {type: this.current_var_decl_type, scope: this.current_var_decl_type}
+	}
+
+	/* end of vars */
 }
 
 /**
