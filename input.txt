@@ -3,5 +3,6 @@ var:
     int a;
     float b;
 main() {
-    a + b - 1.000 + 5;
+    a = 1;
+    print (a + b - 1.000 + 5);
 }

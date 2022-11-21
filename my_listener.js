@@ -17,7 +17,35 @@ export default class MyListener extends GrammarListener {
 	 */
 	operand_stack = new Stack()
 
-	mem_counter = 0
+	float_temp_counter = 0
+	getTemp() {
+		return `$temp_${this.float_temp_counter++}`
+	}
+
+	int_temp_counter = 0
+	getTemp() {
+		return `$temp_${this.int_temp_counter++}`
+	}
+
+	bool_temp_counter = 0
+	getTemp() {
+		return `$temp_${this.bool_temp_counter++}`
+	}
+
+	float_const_counter = 0
+	getFloatConst() {
+		return `$f_${this.float_const_counter++}`
+	}
+
+	int_const_counter = 0
+	getIntConst() {
+		return `$i_${this.int_const_counter++}`
+	}
+	
+	bool_const_counter = 0
+	getBoolConst() {
+		return `$b_${this.bool_const_counter++}`
+	}
 
 	current_var_decl_type = "";
 	current_var_decl_scope = "";
@@ -47,7 +75,7 @@ export default class MyListener extends GrammarListener {
 		if (!result_type) {
 			throw new Error("Type mismatch")
 		}
-		const result = `t${this.mem_counter++}`
+		const result = this.getTemp()
 
 		const quad = getQuadruple(operator, loperand.value, roperand.value, result)
 		this.quad_vector.push(quad)
@@ -62,14 +90,16 @@ export default class MyListener extends GrammarListener {
 		console.log("Done")
 	}
 
-	exitExp_stmt(ctx) {
+	exitPrint_stmt(ctx) {
 		const operand = this.operand_stack.pop()
 
-		console.log("Result:", operand)
+		this.quad_vector.push(getQuadruple("print", operand.value))
 	}
 	
 	exitExp_float_literal(ctx) {
-		this.operand_stack.push({value: ctx.getText(), type: "float"})
+		const next_float = this.getFloatConst()
+		this.quad_vector.push(getQuadruple("=", next_float, null, parseFloat(ctx.getText())))
+		this.operand_stack.push({value: next_float, type: "float"})
 	}
 
 	exitExp_int_literal(ctx) {
@@ -149,7 +179,7 @@ export default class MyListener extends GrammarListener {
 	exitParen_exp(ctx) {
 		this.operator_stack.pop()
 	}
-
+	
 	/*vars*/
 	exitVar_decl_type(ctx) {
 		this.current_var_decl_type = ctx.getText()
@@ -172,6 +202,13 @@ export default class MyListener extends GrammarListener {
 	}
 
 	/* end of vars */
+
+	exitAssignment_stmt(ctx) {
+		const exp_val = this.operand_stack.pop()
+		const varaccess = this.operand_stack.pop()
+		
+		this.quad_vector.push(getQuadruple("=", varaccess.value, null, exp_val.value))
+	}
 }
 
 /**

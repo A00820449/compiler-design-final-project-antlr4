@@ -14,9 +14,13 @@ main: R_MAIN LPAREN RPAREN block;
 
 block: LBRACE statement* RBRACE;
 
-statement: exp_stmt | SEMICOLON;
+statement: print_stmt | assignment_stmt | SEMICOLON;
 
-exp_stmt: expression SEMICOLON;
+print_stmt: R_PRINT LPAREN expression RPAREN SEMICOLON;
+
+assignment_stmt: var_access_asmnt ASSIGN expression SEMICOLON;
+
+var_access_asmnt: var_access;
 
 expression: conjunction expression_aux;
 expression_aux: (conjuction_op conjunction)*;
