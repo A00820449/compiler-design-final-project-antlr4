@@ -138,3 +138,6 @@ lib/
 
 # Avances
 *.zip
+
+# Object file
+*.o
