@@ -4,5 +4,5 @@ var:
     float b;
 main() {
     a = 1;
-    print (a + b - 1.000 + 5);
+    print (a + b - 1.005 + 5);
 }

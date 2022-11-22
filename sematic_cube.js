@@ -44,6 +44,10 @@ export default {
             "int": "bool",
             "float": "bool"
         },
+        "=": {
+            "int": "int",
+            "float": "int"
+        }
     },
     "float": {
         "+": {
@@ -90,6 +94,10 @@ export default {
             "int": "bool",
             "float": "bool"
         },
+        "=": {
+            "int": "float",
+            "float": "float"
+        }
     },
     "bool": {
         "&": {
@@ -98,5 +106,8 @@ export default {
         "|": {
             "bool": "bool"
         },
+        "=": {
+            "bool": "bool"
+        }
     }
 }

@@ -18,3 +18,5 @@ parser.addParseListener(listener)
 
 console.log("Input:", input)
 parser.start()
+
+console.log({quadruples: listener.quad_vector, constants: listener.consts})

@@ -7,57 +7,87 @@ import sematic_cube from "./sematic_cube.js"
  */
 
 export default class MyListener extends GrammarListener {
-	quad_vector = []
+	constructor() {
+		super()
+		this.quad_vector = []
+		this.operator_stack = new Stack()
+		this.operand_stack = new Stack()
+		this.vars = {}
+		this.consts = {}
+		this.current_var_decl_type = ""
+		this.current_var_decl_scope = ""
+	}
+
+
+	quad_vector
 	/**
 	 * @type {Stack<string>}
 	 */
-	operator_stack = new Stack()
+	operator_stack
 	/**
 	 * @type {Stack<{value: any, type: string}>}
 	 */
 	operand_stack = new Stack()
 
 	float_temp_counter = 0
-	getTemp() {
-		return `$temp_${this.float_temp_counter++}`
+	getFloatTemp() {
+		return `$ftemp_${this.float_temp_counter++}`
 	}
 
 	int_temp_counter = 0
-	getTemp() {
-		return `$temp_${this.int_temp_counter++}`
+	getIntTemp() {
+		return `$itemp_${this.int_temp_counter++}`
 	}
 
 	bool_temp_counter = 0
-	getTemp() {
-		return `$temp_${this.bool_temp_counter++}`
+	getBoolTemp() {
+		return `$btemp_${this.bool_temp_counter++}`
 	}
 
 	float_const_counter = 0
 	getFloatConst() {
-		return `$f_${this.float_const_counter++}`
+		return `$float_${this.float_const_counter++}`
 	}
 
 	int_const_counter = 0
 	getIntConst() {
-		return `$i_${this.int_const_counter++}`
+		return `$int_${this.int_const_counter++}`
 	}
 	
 	bool_const_counter = 0
 	getBoolConst() {
-		return `$b_${this.bool_const_counter++}`
+		return `$bool_${this.bool_const_counter++}`
 	}
 
-	current_var_decl_type = "";
-	current_var_decl_scope = "";
+	getTemp(type) {
+		switch (type) {
+			case "bool":
+				return this.getBoolTemp()
+				break
+			case "int":
+				return this.getIntTemp()
+				break
+			case "float":
+				return this.getFloatTemp()
+				break
+			default:
+				return null
+				break
+		}	
+	}
+
+	current_var_decl_type
+	current_var_decl_scope
 
 	/**
 	 * @type {Object<string, var_info>}
 	 */
-	vars = {}
+	vars
 
-    constructor() {
-        super()
-    }
+	/**
+	 * @type {Object<string, number>}
+	 */
+	consts
 
 	/**
 	 * 
@@ -75,7 +105,7 @@ export default class MyListener extends GrammarListener {
 		if (!result_type) {
 			throw new Error("Type mismatch")
 		}
-		const result = this.getTemp()
+		const result = this.getTemp(result_type)
 
 		const quad = getQuadruple(operator, loperand.value, roperand.value, result)
 		this.quad_vector.push(quad)
@@ -86,7 +116,6 @@ export default class MyListener extends GrammarListener {
 		console.log("Starting")
 	}
 	exitStart(ctx) {
-		console.log(this.quad_vector)
 		console.log("Done")
 	}
 
@@ -98,16 +127,20 @@ export default class MyListener extends GrammarListener {
 	
 	exitExp_float_literal(ctx) {
 		const next_float = this.getFloatConst()
-		this.quad_vector.push(getQuadruple("=", next_float, null, parseFloat(ctx.getText())))
+		this.consts[next_float] = parseFloat(ctx.getText())
 		this.operand_stack.push({value: next_float, type: "float"})
 	}
 
 	exitExp_int_literal(ctx) {
-		this.operand_stack.push({value: ctx.getText(), type: "int"})
+		const next_int = this.getIntConst()
+		this.consts[next_int] = parseFloat(ctx.getText())
+		this.operand_stack.push({value: next_int, type: "int"})
 	}
 
 	exitExp_bool_literal(ctx) {
-		this.operand_stack.push({value: ctx.getText().charAt(0), type: "bool"})
+		const next_float = this.getBoolConst()
+		this.consts[next_float] = parseFloat(ctx.getText())
+		this.operand_stack.push({value: next_float, type: "bool"})
 	}
 
 	exitVar_access(ctx) {
@@ -206,7 +239,13 @@ export default class MyListener extends GrammarListener {
 	exitAssignment_stmt(ctx) {
 		const exp_val = this.operand_stack.pop()
 		const varaccess = this.operand_stack.pop()
-		
+
+
+		const valid = sematic_cube[varaccess.type]?.["="]?.[exp_val.value]
+		if (!valid) {
+			new Error("Type mismatch")
+		}
+
 		this.quad_vector.push(getQuadruple("=", varaccess.value, null, exp_val.value))
 	}
 }

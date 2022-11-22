@@ -1,3 +1,4 @@
+import util from "node:util"
 /**
  * @template T
  */
@@ -31,5 +32,9 @@ export default class Stack {
 
     isEmpty() {
         return this.#arr.length <= 0
+    }
+
+    [util.inspect.custom]() {
+        return this.#arr
     }
 }
