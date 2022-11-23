@@ -13,7 +13,7 @@ export default class MyListener extends GrammarListener {
 		this.operator_stack = new Stack()
 		this.operand_stack = new Stack()
 		this.vars = {}
-		this.consts = {}
+		this.consts = {"$false": false, "$true": true, "$int_default": 0, "$float_default": 0.0, "$bool_default": false}
 		this.current_var_decl_type = ""
 		this.current_var_decl_scope = ""
 	}
@@ -53,17 +53,9 @@ export default class MyListener extends GrammarListener {
 	getIntConst() {
 		return `$int_${this.int_const_counter++}`
 	}
-	
-	bool_const_counter = 0
-	getBoolConst() {
-		return `$bool_${this.bool_const_counter++}`
-	}
 
 	getTemp(type) {
 		switch (type) {
-			case "bool":
-				return this.getBoolTemp()
-				break
 			case "int":
 				return this.getIntTemp()
 				break
@@ -85,7 +77,7 @@ export default class MyListener extends GrammarListener {
 	vars
 
 	/**
-	 * @type {Object<string, number>}
+	 * @type {Object<string, number | boolean>}
 	 */
 	consts
 
@@ -138,9 +130,8 @@ export default class MyListener extends GrammarListener {
 	}
 
 	exitExp_bool_literal(ctx) {
-		const next_float = this.getBoolConst()
-		this.consts[next_float] = parseFloat(ctx.getText())
-		this.operand_stack.push({value: next_float, type: "bool"})
+		const boolan_const = `$${ctx.getText()}`
+		this.operand_stack.push({value: boolan_const, type: "bool"})
 	}
 
 	exitVar_access(ctx) {
@@ -232,6 +223,7 @@ export default class MyListener extends GrammarListener {
 			throw new Error("Variable declared twice")
 		}
 		this.vars[id] = {type: this.current_var_decl_type, scope: this.current_var_decl_type}
+		this.quad_vector.push(getQuadruple("=", id, null, `$${this.current_var_decl_type}_default`))
 	}
 
 	/* end of vars */

@@ -2,7 +2,10 @@
 var:
     int a;
     float b;
+    bool z;
 main() {
+    z = false;
     a = 1;
+    b = 2;
     print (a + b - 1.005 + 5);
 }
