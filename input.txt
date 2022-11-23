@@ -3,7 +3,7 @@ var:
     int a;
     float b;
 main() {
-    a = 12;
+    a = 12 + 1;
     b = 1 / 2;
     print (a + b);
 }

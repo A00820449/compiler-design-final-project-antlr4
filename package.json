@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build-grammar": "antlr4 -Dlanguage=JavaScript Grammar.g4 -o lib -visitor"
+    "build-grammar": "antlr4 -Dlanguage=JavaScript Grammar.g4 -o lib -visitor",
+    "postinstall": "npm run build-grammar"
   },
   "author": "a00820449",
   "license": "MIT",
